@@ -21,28 +21,33 @@
 # SOFTWARE.
 
 
-from ethereumetl.domain.transaction import EthTransaction
+from ethereumetl.domain.transaction import CfxTransaction
 from ethereumetl.utils import hex_to_dec, to_normalized_address
 
 
 class EthTransactionMapper(object):
     def json_dict_to_transaction(self, json_dict, **kwargs):
-        transaction = EthTransaction()
+        transaction = CfxTransaction()
         transaction.hash = json_dict.get('hash')
         transaction.nonce = hex_to_dec(json_dict.get('nonce'))
         transaction.block_hash = json_dict.get('blockHash')
-        transaction.block_number = hex_to_dec(json_dict.get('blockNumber'))
+        transaction.epoch_number = kwargs.get('epoch_number')
+        transaction.epoch_height = hex_to_dec(json_dict.get('epochHeight'))
         transaction.block_timestamp = kwargs.get('block_timestamp')
+        transaction.chain_id = json_dict.get('chainId')
+        transaction.contract_created = json_dict.get('contractCreated')
         transaction.transaction_index = hex_to_dec(json_dict.get('transactionIndex'))
         transaction.from_address = to_normalized_address(json_dict.get('from'))
         transaction.to_address = to_normalized_address(json_dict.get('to'))
         transaction.value = hex_to_dec(json_dict.get('value'))
         transaction.gas = hex_to_dec(json_dict.get('gas'))
         transaction.gas_price = hex_to_dec(json_dict.get('gasPrice'))
-        transaction.input = json_dict.get('input')
-        transaction.max_fee_per_gas = hex_to_dec(json_dict.get('maxFeePerGas'))
-        transaction.max_priority_fee_per_gas = hex_to_dec(json_dict.get('maxPriorityFeePerGas'))
-        transaction.transaction_type = hex_to_dec(json_dict.get('type'))
+        transaction.data = json_dict.get('input')
+        transaction.status = json_dict.get('status')
+        transaction.storage_limit = hex_to_dec(json_dict.get('storageLimit'))
+        transaction.r = json_dict.get('r')
+        transaction.s = json_dict.get('s')
+        transaction.v = hex_to_dec(json_dict.get('v'))
         return transaction
 
     def transaction_to_dict(self, transaction):
@@ -51,16 +56,21 @@ class EthTransactionMapper(object):
             'hash': transaction.hash,
             'nonce': transaction.nonce,
             'block_hash': transaction.block_hash,
-            'block_number': transaction.block_number,
+            'epoch_number': transaction.epoch_number,
+            'epoch_height': transaction.epoch_height,
             'block_timestamp': transaction.block_timestamp,
+            'chain_id': transaction.chain_id,
+            'contract_created': transaction.contract_created,
             'transaction_index': transaction.transaction_index,
             'from_address': transaction.from_address,
             'to_address': transaction.to_address,
             'value': transaction.value,
             'gas': transaction.gas,
             'gas_price': transaction.gas_price,
-            'input': transaction.input,
-            'max_fee_per_gas': transaction.max_fee_per_gas,
-            'max_priority_fee_per_gas': transaction.max_priority_fee_per_gas,
-            'transaction_type': transaction.transaction_type
+            'data': transaction.data,
+            'status': transaction.status,
+            'storage_limit': transaction.storage_limit,
+            'r': transaction.r,
+            's': transaction.s,
+            'v': transaction.v,
         }

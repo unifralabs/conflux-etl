@@ -21,19 +21,25 @@
 # SOFTWARE.
 
 
-class EthTransaction(object):
+class CfxTransaction(object):
     def __init__(self):
         self.hash = None
         self.nonce = None
         self.block_hash = None
-        self.block_number = None
+        self.epoch_number = None
+        self.epoch_height = None #  the epoch proposed by the sender. Note that this is NOT the epoch of the block containing this transaction.
+        self.block_timestamp = None
+        self.chain_id = None
+        self.contract_created = None
         self.transaction_index = None
         self.from_address = None
         self.to_address = None
         self.value = None
         self.gas = None
         self.gas_price = None
-        self.input = None
-        self.max_fee_per_gas = None
-        self.max_priority_fee_per_gas = None
-        self.transaction_type = None
+        self.data = None
+        self.status = None
+        self.storage_limit = None
+        self.r = None
+        self.s = None
+        self.v = None

@@ -21,26 +21,26 @@
 # SOFTWARE.
 
 
-class EthBlock(object):
+class CfxBlock(object):
     def __init__(self):
-        self.number = None
+        self.epoch_number = None
+        self.height = None
         self.hash = None
         self.parent_hash = None
-        self.nonce = None
-        self.sha3_uncles = None
-        self.logs_bloom = None
-        self.transactions_root = None
-        self.state_root = None
-        self.receipts_root = None
         self.miner = None
+        self.nonce = None
         self.difficulty = None
-        self.total_difficulty = None
-        self.size = None
-        self.extra_data = None
         self.gas_limit = None
         self.gas_used = None
+        self.deferred_logs_bloom_hash = None
+        self.deferred_receipts_root = None
+        self.deferred_state_root = None
+        self.transactions_root = None
+        self.pow_quality = None
+        self.size = None
         self.timestamp = None
 
+        self.adaptive = False
+        self.blame = 0
         self.transactions = []
-        self.transaction_count = 0
-        self.base_fee_per_gas = 0
+        self.referee_hashes = []

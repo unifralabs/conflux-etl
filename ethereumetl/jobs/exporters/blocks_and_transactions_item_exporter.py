@@ -21,46 +21,51 @@
 # SOFTWARE.
 
 
-from blockchainetl.jobs.exporters.composite_item_exporter import CompositeItemExporter
+from blockchainetl.jobs.exporters.composite_item_exporter import \
+    CompositeItemExporter
 
 BLOCK_FIELDS_TO_EXPORT = [
-    'number',
+    'epoch_number',
+    'height',
     'hash',
     'parent_hash',
-    'nonce',
-    'sha3_uncles',
-    'logs_bloom',
-    'transactions_root',
-    'state_root',
-    'receipts_root',
     'miner',
+    'nonce',
     'difficulty',
-    'total_difficulty',
-    'size',
-    'extra_data',
     'gas_limit',
     'gas_used',
+    'deferred_logs_bloom_hash',
+    'deferred_receipts_root',
+    'deferred_state_root',
+    'transactions_root',
+    'pow_quality',
+    'size',
     'timestamp',
-    'transaction_count',
-    'base_fee_per_gas'
+    'adaptive',
+    'blame',
 ]
 
 TRANSACTION_FIELDS_TO_EXPORT = [
     'hash',
     'nonce',
     'block_hash',
-    'block_number',
+    'epoch_number',
+    'epoch_height',
+    'block_timestamp',
+    'chain_id',
+    'contract_created',
     'transaction_index',
     'from_address',
     'to_address',
     'value',
     'gas',
     'gas_price',
-    'input',
-    'block_timestamp',
-    'max_fee_per_gas',
-    'max_priority_fee_per_gas',
-    'transaction_type'
+    'data',
+    'status',
+    'storage_limit',
+    'r',
+    's',
+    'v',
 ]
 
 
