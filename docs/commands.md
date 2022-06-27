@@ -143,46 +143,6 @@ You can tune `--max-workers` for performance.
 
 [Tokens schema](schema.md#tokenscsv).
 
-#### export_traces
-
-Also called internal transactions.
-The API used in this command is not supported by Infura, 
-so you will need a local Parity archive node (`parity --tracing on`). 
-Make sure your node has at least 8GB of memory, or else you will face timeout errors. 
-See [this issue](https://github.com/blockchain-etl/ethereum-etl/issues/137) 
-
-```bash
-> ethereumetl export_traces --start-block 0 --end-block 500000 \
---provider-uri file://$HOME/Library/Ethereum/parity.ipc --batch-size 100 --output traces.csv
-```
-
-You can tune `--batch-size`, `--max-workers` for performance.
-
-[Traces schema](schema.md#tracescsv).
-
-#### export_geth_traces
-
-Read [Differences between geth and parity traces.csv](schema.md#differences-between-geth-and-parity-tracescsv)
-
-The API used in this command is not supported by Infura, 
-so you will need a local Geth archive node (`geth --gcmode archive --syncmode full --ipcapi debug`).
-When using rpc, add `--rpc --rpcapi debug` options.
-
-```bash
-> ethereumetl export_geth_traces --start-block 0 --end-block 500000 \
---provider-uri file://$HOME/Library/Ethereum/geth.ipc --batch-size 100 --output geth_traces.json
-```
-
-You can tune `--batch-size`, `--max-workers` for performance.
-
-#### extract_geth_traces
-
-```bash
-> ethereumetl extract_geth_traces --input geth_traces.json --output traces.csv
-```
-
-You can tune `--batch-size`, `--max-workers` for performance.
-
 #### get_block_range_for_date
 
 ```bash
@@ -205,28 +165,27 @@ You can tune `--batch-size`, `--max-workers` for performance.
 ```
 
 - This command outputs blocks, transactions, logs, token_transfers to the console by default.
-- Entity types can be specified with the `-e` option, 
-e.g. `-e block,transaction,log,token_transfer,trace,contract,token`.
-- Use `--output` option to specify the Google Pub/Sub topic, Postgres database or GCS bucket where to publish blockchain data, 
-    - For Google PubSub: `--output=projects/<your-project>/topics/crypto_ethereum`. 
+- Entity types can be specified with the `-e` option,
+  e.g. `-e block,transaction,log,token_transfer,contract,token`.
+- Use `--output` option to specify the Google Pub/Sub topic, Postgres database or GCS bucket where to publish blockchain data,
+  - For Google PubSub: `--output=projects/<your-project>/topics/crypto_ethereum`.
     Data will be pushed to `projects/<your-project>/topics/crypto_ethereum.blocks`, `projects/<your-project>/topics/crypto_ethereum.transactions` etc. topics.
-    - For Postgres: `--output=postgresql+pg8000://<user>:<password>@<host>:<port>/<database_name>`, 
+  - For Postgres: `--output=postgresql+pg8000://<user>:<password>@<host>:<port>/<database_name>`,
     e.g. `--output=postgresql+pg8000://postgres:admin@127.0.0.1:5432/ethereum`.
-    - For GCS:  `--output=gs://<bucket_name>`. Make sure to install and initialize `gcloud` cli.
-    - For Kafka:  `--output=kafka/<host>:<port>`, e.g. `--output=kafka/127.0.0.1:9092`
-    - Those output types can be combined with a comma e.g. `--output=gs://<bucket_name>,projects/<your-project>/topics/crypto_ethereum`
-    
-    The [schema](https://github.com/blockchain-etl/ethereum-etl-postgres/tree/master/schema) 
-    and [indexes](https://github.com/blockchain-etl/ethereum-etl-postgres/tree/master/indexes) can be found in this 
-    repo [ethereum-etl-postgres](https://github.com/blockchain-etl/ethereum-etl-postgres). 
+  - For GCS: `--output=gs://<bucket_name>`. Make sure to install and initialize `gcloud` cli.
+  - For Kafka: `--output=kafka/<host>:<port>`, e.g. `--output=kafka/127.0.0.1:9092`
+  - Those output types can be combined with a comma e.g. `--output=gs://<bucket_name>,projects/<your-project>/topics/crypto_ethereum`
+    The [schema](https://github.com/blockchain-etl/ethereum-etl-postgres/tree/master/schema)
+    and [indexes](https://github.com/blockchain-etl/ethereum-etl-postgres/tree/master/indexes) can be found in this
+    repo [ethereum-etl-postgres](https://github.com/blockchain-etl/ethereum-etl-postgres).
 - The command saves its state to `last_synced_block.txt` file where the last synced block number is saved periodically.
-- Specify either `--start-block` or `--last-synced-block-file` option. `--last-synced-block-file` should point to the 
-file where the block number, from which to start streaming the blockchain data, is saved.
-- Use the `--lag` option to specify how many blocks to lag behind the head of the blockchain. It's the simplest way to 
-handle chain reorganizations - they are less likely the further a block from the head.
+- Specify either `--start-block` or `--last-synced-block-file` option. `--last-synced-block-file` should point to the
+  file where the block number, from which to start streaming the blockchain data, is saved.
+- Use the `--lag` option to specify how many blocks to lag behind the head of the blockchain. It's the simplest way to
+  handle chain reorganizations - they are less likely the further a block from the head.
 - You can tune `--period-seconds`, `--batch-size`, `--block-batch-size`, `--max-workers` for performance.
 - Refer to [blockchain-etl-streaming](https://github.com/blockchain-etl/blockchain-etl-streaming) for
-instructions on deploying it to Kubernetes. 
+  instructions on deploying it to Kubernetes.
 
 Stream blockchain data continually to Google Pub/Sub:
 
@@ -241,6 +200,6 @@ Stream blockchain data to a Postgres database:
 ethereumetl stream --start-block 500000 --output postgresql+pg8000://<user>:<password>@<host>:5432/<database>
 ```
 
-The [schema](https://github.com/blockchain-etl/ethereum-etl-postgres/tree/master/schema) 
-and [indexes](https://github.com/blockchain-etl/ethereum-etl-postgres/tree/master/indexes) can be found in this 
+The [schema](https://github.com/blockchain-etl/ethereum-etl-postgres/tree/master/schema)
+and [indexes](https://github.com/blockchain-etl/ethereum-etl-postgres/tree/master/indexes) can be found in this
 repo [ethereum-etl-postgres](https://github.com/blockchain-etl/ethereum-etl-postgres).

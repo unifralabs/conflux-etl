@@ -20,8 +20,9 @@
 #  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 #  SOFTWARE.
 
-from sqlalchemy import Table, Column, Integer, BigInteger, Boolean, String, Numeric, \
-    MetaData, PrimaryKeyConstraint, VARCHAR, TIMESTAMP
+from sqlalchemy import (TIMESTAMP, VARCHAR, BigInteger, Boolean, Column,
+                        Integer, MetaData, Numeric, PrimaryKeyConstraint,
+                        String, Table)
 from sqlalchemy.dialects.postgresql import ARRAY
 
 metadata = MetaData()
@@ -103,30 +104,6 @@ TOKEN_TRANSFERS = Table(
     Column('block_timestamp', TIMESTAMP),
     Column('block_number', BigInteger),
     Column('block_hash', String),
-)
-
-TRACES = Table(
-    'traces', metadata,
-    Column('transaction_hash', String),
-    Column('transaction_index', BigInteger),
-    Column('from_address', String),
-    Column('to_address', String),
-    Column('value', Numeric(38)),
-    Column('input', String),
-    Column('output', String),
-    Column('trace_type', String),
-    Column('call_type', String),
-    Column('reward_type', String),
-    Column('gas', BigInteger),
-    Column('gas_used', BigInteger),
-    Column('subtraces', BigInteger),
-    Column('trace_address', String),
-    Column('error', String),
-    Column('status', Integer),
-    Column('block_timestamp', TIMESTAMP),
-    Column('block_number', BigInteger),
-    Column('block_hash', String),
-    Column('trace_id', String, primary_key=True),
 )
 
 TOKENS = Table(
