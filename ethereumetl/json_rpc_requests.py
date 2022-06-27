@@ -57,6 +57,18 @@ def generate_get_code_json_rpc(contract_addresses, block='latest'):
                 block) if isinstance(block, int) else block],
             request_id=idx
         )
+        
+def generate_get_logs_json_rpc(from_epoch, to_epoch, topics, address=None):
+        return generate_json_rpc(
+            method='cfx_getLogs',
+            params=[{
+                'fromEpoch': hex(from_epoch),
+                'toEpoch': hex(to_epoch),
+                'topics': topics,
+                'address': address,
+            }],
+            request_id=1
+        )
 
 
 def generate_json_rpc(method, params, request_id=1):

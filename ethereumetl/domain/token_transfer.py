@@ -21,7 +21,7 @@
 # SOFTWARE.
 
 
-class EthTokenTransfer(object):
+class CfxTokenTransfer(object):
     def __init__(self):
         self.token_address = None
         self.from_address = None
@@ -29,4 +29,4 @@ class EthTokenTransfer(object):
         self.value = None
         self.transaction_hash = None
         self.log_index = None
-        self.block_number = None
+        self.epoch_number = None

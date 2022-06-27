@@ -22,14 +22,14 @@
 
 
 from ethereumetl.domain.receipt import EthReceipt
-from ethereumetl.mappers.receipt_log_mapper import EthReceiptLogMapper
+from ethereumetl.mappers.receipt_log_mapper import CfxReceiptLogMapper
 from ethereumetl.utils import hex_to_dec, to_normalized_address
 
 
 class EthReceiptMapper(object):
     def __init__(self, receipt_log_mapper=None):
         if receipt_log_mapper is None:
-            self.receipt_log_mapper = EthReceiptLogMapper()
+            self.receipt_log_mapper = CfxReceiptLogMapper()
         else:
             self.receipt_log_mapper = receipt_log_mapper
 

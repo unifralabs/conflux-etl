@@ -19,13 +19,17 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
+import json
 
-from ethereumetl.executors.batch_work_executor import BatchWorkExecutor
 from blockchainetl.jobs.base_job import BaseJob
-from ethereumetl.mappers.token_transfer_mapper import EthTokenTransferMapper
-from ethereumetl.mappers.receipt_log_mapper import EthReceiptLogMapper
-from ethereumetl.service.token_transfer_extractor import EthTokenTransferExtractor, TRANSFER_EVENT_TOPIC
-from ethereumetl.utils import validate_range
+from ethereumetl.executors.batch_work_executor import BatchWorkExecutor
+from ethereumetl.json_rpc_requests import generate_get_logs_json_rpc
+from ethereumetl.mappers.receipt_log_mapper import CfxReceiptLogMapper
+from ethereumetl.mappers.token_transfer_mapper import CfxTokenTransferMapper
+from ethereumetl.service.token_transfer_extractor import (
+    TRANSFER_EVENT_TOPIC, CfxTokenTransferExtractor)
+from ethereumetl.utils import rpc_response_to_result, validate_range
+from ethereumetl.web3_utils import make_request
 
 
 class ExportTokenTransfersJob(BaseJob):
@@ -48,9 +52,9 @@ class ExportTokenTransfersJob(BaseJob):
 
         self.batch_work_executor = BatchWorkExecutor(batch_size, max_workers)
 
-        self.receipt_log_mapper = EthReceiptLogMapper()
-        self.token_transfer_mapper = EthTokenTransferMapper()
-        self.token_transfer_extractor = EthTokenTransferExtractor()
+        self.receipt_log_mapper = CfxReceiptLogMapper()
+        self.token_transfer_mapper = CfxTokenTransferMapper()
+        self.token_transfer_extractor = CfxTokenTransferExtractor()
 
     def _start(self):
         self.item_exporter.open()
@@ -64,25 +68,20 @@ class ExportTokenTransfersJob(BaseJob):
 
     def _export_batch(self, block_number_batch):
         assert len(block_number_batch) > 0
-        # https://github.com/ethereum/wiki/wiki/JSON-RPC#eth_getfilterlogs
-        filter_params = {
-            'fromBlock': block_number_batch[0],
-            'toBlock': block_number_batch[-1],
-            'topics': [TRANSFER_EVENT_TOPIC]
-        }
 
+        address = None
         if self.tokens is not None and len(self.tokens) > 0:
-            filter_params['address'] = self.tokens
+            address = self.tokens
 
-        event_filter = self.web3.eth.filter(filter_params)
-        events = event_filter.get_all_entries()
+        logs_rpc = generate_get_logs_json_rpc(block_number_batch[0], block_number_batch[-1], [TRANSFER_EVENT_TOPIC], address) 
+        response = make_request(self.web3, json.dumps(logs_rpc))
+        events = rpc_response_to_result(response)
+        
         for event in events:
-            log = self.receipt_log_mapper.web3_dict_to_receipt_log(event)
+            log = self.receipt_log_mapper.json_dict_to_receipt_log(event)
             token_transfer = self.token_transfer_extractor.extract_transfer_from_log(log)
             if token_transfer is not None:
                 self.item_exporter.export_item(self.token_transfer_mapper.token_transfer_to_dict(token_transfer))
-
-        self.web3.eth.uninstallFilter(event_filter.filter_id)
 
     def _end(self):
         self.batch_work_executor.shutdown()

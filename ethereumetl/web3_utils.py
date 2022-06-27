@@ -21,6 +21,7 @@
 # SOFTWARE.
 
 from web3 import Web3
+from web3._utils.request import make_post_request
 from web3.middleware import geth_poa_middleware
 
 
@@ -28,3 +29,18 @@ def build_web3(provider):
     w3 = Web3(provider)
     w3.middleware_onion.inject(geth_poa_middleware, layer=0)
     return w3
+
+def make_request(provider, text):
+    provider.logger.debug("Making request HTTP. URI: %s, Request: %s",
+                        provider.endpoint_uri, text)
+    request_data = text.encode('utf-8')
+    raw_response = make_post_request(
+        provider.endpoint_uri,
+        request_data,
+        **provider.get_request_kwargs()
+    )
+    response = provider.decode_rpc_response(raw_response)
+    provider.logger.debug("Getting response HTTP. URI: %s, "
+                        "Request: %s, Response: %s",
+                        provider.endpoint_uri, text, response)
+    return response

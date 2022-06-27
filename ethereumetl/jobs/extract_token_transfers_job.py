@@ -20,11 +20,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from ethereumetl.executors.batch_work_executor import BatchWorkExecutor
 from blockchainetl.jobs.base_job import BaseJob
-from ethereumetl.mappers.token_transfer_mapper import EthTokenTransferMapper
-from ethereumetl.mappers.receipt_log_mapper import EthReceiptLogMapper
-from ethereumetl.service.token_transfer_extractor import EthTokenTransferExtractor
+from ethereumetl.executors.batch_work_executor import BatchWorkExecutor
+from ethereumetl.mappers.receipt_log_mapper import CfxReceiptLogMapper
+from ethereumetl.mappers.token_transfer_mapper import CfxTokenTransferMapper
+from ethereumetl.service.token_transfer_extractor import \
+    CfxTokenTransferExtractor
 
 
 class ExtractTokenTransfersJob(BaseJob):
@@ -39,9 +40,9 @@ class ExtractTokenTransfersJob(BaseJob):
         self.batch_work_executor = BatchWorkExecutor(batch_size, max_workers)
         self.item_exporter = item_exporter
 
-        self.receipt_log_mapper = EthReceiptLogMapper()
-        self.token_transfer_mapper = EthTokenTransferMapper()
-        self.token_transfer_extractor = EthTokenTransferExtractor()
+        self.receipt_log_mapper = CfxReceiptLogMapper()
+        self.token_transfer_mapper = CfxTokenTransferMapper()
+        self.token_transfer_extractor = CfxTokenTransferExtractor()
 
     def _start(self):
         self.item_exporter.open()

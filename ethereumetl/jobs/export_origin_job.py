@@ -1,11 +1,10 @@
-from ethereumetl.executors.batch_work_executor import BatchWorkExecutor
 from blockchainetl.jobs.base_job import BaseJob
-from ethereumetl.utils import validate_range
-
-from ethereumetl.mappers.receipt_log_mapper import EthReceiptLogMapper
-from ethereumetl.mappers.origin_mapper import OriginMarketplaceListingMapper, OriginShopProductMapper
+from ethereumetl.executors.batch_work_executor import BatchWorkExecutor
+from ethereumetl.mappers.origin_mapper import (OriginMarketplaceListingMapper,
+                                               OriginShopProductMapper)
+from ethereumetl.mappers.receipt_log_mapper import CfxReceiptLogMapper
 from ethereumetl.service.origin_extractor import OriginEventExtractor
-
+from ethereumetl.utils import validate_range
 
 # Addresses of the marketplace contracts.
 ORIGIN_MARKETPLACE_V0_CONTRACT_ADDRESS = '0x819Bb9964B6eBF52361F1ae42CF4831B921510f9'
@@ -40,7 +39,7 @@ class ExportOriginJob(BaseJob):
 
         self.event_extractor = OriginEventExtractor(ipfs_client)
 
-        self.receipt_log_mapper = EthReceiptLogMapper()
+        self.receipt_log_mapper = CfxReceiptLogMapper()
         self.marketplace_listing_mapper = OriginMarketplaceListingMapper()
         self.shop_listing_mapper = OriginShopProductMapper()
 
