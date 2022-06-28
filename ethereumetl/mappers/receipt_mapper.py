@@ -21,12 +21,12 @@
 # SOFTWARE.
 
 
-from ethereumetl.domain.receipt import EthReceipt
+from ethereumetl.domain.receipt import CfxReceipt
 from ethereumetl.mappers.receipt_log_mapper import CfxReceiptLogMapper
 from ethereumetl.utils import hex_to_dec, to_normalized_address
 
 
-class EthReceiptMapper(object):
+class CfxReceiptMapper(object):
     def __init__(self, receipt_log_mapper=None):
         if receipt_log_mapper is None:
             self.receipt_log_mapper = CfxReceiptLogMapper()
@@ -34,21 +34,24 @@ class EthReceiptMapper(object):
             self.receipt_log_mapper = receipt_log_mapper
 
     def json_dict_to_receipt(self, json_dict):
-        receipt = EthReceipt()
+        receipt = CfxReceipt()
 
         receipt.transaction_hash = json_dict.get('transactionHash')
-        receipt.transaction_index = hex_to_dec(json_dict.get('transactionIndex'))
+        receipt.index= hex_to_dec(json_dict.get('index'))
         receipt.block_hash = json_dict.get('blockHash')
-        receipt.block_number = hex_to_dec(json_dict.get('blockNumber'))
-        receipt.cumulative_gas_used = hex_to_dec(json_dict.get('cumulativeGasUsed'))
+        receipt.epoch_number = hex_to_dec(json_dict.get('epochNumber'))
+        receipt.from_address = to_normalized_address(json_dict.get('from'))
+        receipt.to_address = to_normalized_address(json_dict.get('to'))
         receipt.gas_used = hex_to_dec(json_dict.get('gasUsed'))
-
-        receipt.contract_address = to_normalized_address(json_dict.get('contractAddress'))
-
-        receipt.root = json_dict.get('root')
-        receipt.status = hex_to_dec(json_dict.get('status'))
-
-        receipt.effective_gas_price = hex_to_dec(json_dict.get('effectiveGasPrice'))
+        receipt.gas_fee = hex_to_dec(json_dict.get('gasFee'))
+        receipt.gas_covered_by_sponsor = hex_to_dec(json_dict.get('gasCoveredBySponsor'))
+        receipt.storage_collateralized = hex_to_dec(json_dict.get('storageCollateralized'))
+        receipt.storage_covered_by_sponsor = hex_to_dec(json_dict.get('storageCoveredBySponsor'))
+        receipt.storage_released = json_dict.get('storageReleased')
+        receipt.contract_created = to_normalized_address(json_dict.get('contractCreated'))
+        receipt.state_root = json_dict.get('statusRoot')
+        receipt.outcome_status = json_dict.get('outcomeStatus')
+        receipt.logs_bloom = json_dict.get('logsBloom')
 
         if 'logs' in json_dict:
             receipt.logs = [
@@ -61,13 +64,19 @@ class EthReceiptMapper(object):
         return {
             'type': 'receipt',
             'transaction_hash': receipt.transaction_hash,
-            'transaction_index': receipt.transaction_index,
+            'index': receipt.index,
             'block_hash': receipt.block_hash,
-            'block_number': receipt.block_number,
-            'cumulative_gas_used': receipt.cumulative_gas_used,
+            'epoch_number': receipt.epoch_number,
+            'from_address': receipt.from_address,
+            'to_address': receipt.to_address,
             'gas_used': receipt.gas_used,
-            'contract_address': receipt.contract_address,
-            'root': receipt.root,
-            'status': receipt.status,
-            'effective_gas_price': receipt.effective_gas_price
+            'gas_fee': receipt.gas_fee,
+            'gas_covered_by_sponsor': receipt.gas_covered_by_sponsor,
+            'storage_collateralized': receipt.storage_collateralized,
+            'storage_covered_by_sponsor': receipt.storage_covered_by_sponsor,
+            'storage_released': receipt.storage_released,
+            'contract_created': receipt.contract_created,
+            'state_root': receipt.state_root,
+            'outcome_status': receipt.outcome_status,
+            'logs_bloom': receipt.logs_bloom,
         }

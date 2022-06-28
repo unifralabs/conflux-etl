@@ -21,16 +21,22 @@
 # SOFTWARE.
 
 
-class EthReceipt(object):
+class CfxReceipt(object):
     def __init__(self):
         self.transaction_hash = None
-        self.transaction_index = None
+        self.index= None
         self.block_hash = None
-        self.block_number = None
-        self.cumulative_gas_used = None
+        self.epoch_number = None
+        self.from_address = None
+        self.to_address = None
         self.gas_used = None
-        self.contract_address = None
+        self.gas_fee = None
+        self.gas_covered_by_sponsor = None
+        self.storage_collateralized = None
+        self.storage_covered_by_sponsor = None
+        self.storage_released = []
+        self.contract_created = None
+        self.state_root = None
+        self.outcome_status = None
+        self.logs_bloom = None
         self.logs = []
-        self.root = None
-        self.status = None
-        self.effective_gas_price = None

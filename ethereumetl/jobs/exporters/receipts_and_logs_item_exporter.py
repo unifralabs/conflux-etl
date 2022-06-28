@@ -21,27 +21,35 @@
 # SOFTWARE.
 
 
-from blockchainetl.jobs.exporters.composite_item_exporter import CompositeItemExporter
+from blockchainetl.jobs.exporters.composite_item_exporter import \
+    CompositeItemExporter
 
 RECEIPT_FIELDS_TO_EXPORT = [
     'transaction_hash',
-    'transaction_index',
+    'index',
     'block_hash',
-    'block_number',
-    'cumulative_gas_used',
+    'epoch_number',
+    'from_address',
+    'to_address',
     'gas_used',
-    'contract_address',
-    'root',
-    'status',
-    'effective_gas_price'
+    'gas_fee',
+    'gas_covered_by_sponsor',
+    'storage_collateralized',
+    'storage_covered_by_sponsor',
+    'storage_released',
+    'contract_created',
+    'state_root',
+    'outcome_status',
+    'logs_bloom',
 ]
 
 LOG_FIELDS_TO_EXPORT = [
     'log_index',
+    'transaction_log_index',
     'transaction_hash',
     'transaction_index',
     'block_hash',
-    'block_number',
+    'epoch_number',
     'address',
     'data',
     'topics'

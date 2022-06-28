@@ -27,7 +27,7 @@ from blockchainetl.jobs.base_job import BaseJob
 from ethereumetl.executors.batch_work_executor import BatchWorkExecutor
 from ethereumetl.json_rpc_requests import generate_get_receipt_json_rpc
 from ethereumetl.mappers.receipt_log_mapper import CfxReceiptLogMapper
-from ethereumetl.mappers.receipt_mapper import EthReceiptMapper
+from ethereumetl.mappers.receipt_mapper import CfxReceiptMapper
 from ethereumetl.utils import rpc_response_batch_to_results
 
 
@@ -53,7 +53,7 @@ class ExportReceiptsJob(BaseJob):
         if not self.export_receipts and not self.export_logs:
             raise ValueError('At least one of export_receipts or export_logs must be True')
 
-        self.receipt_mapper = EthReceiptMapper()
+        self.receipt_mapper = CfxReceiptMapper()
         self.receipt_log_mapper = CfxReceiptLogMapper()
 
     def _start(self):
