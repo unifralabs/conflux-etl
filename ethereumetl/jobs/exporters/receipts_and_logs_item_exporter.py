@@ -43,8 +43,8 @@ RECEIPT_FIELDS_TO_EXPORT = [
 ]
 
 LOG_FIELDS_TO_EXPORT = [
-    'log_index',
-    'transaction_log_index',
+    # 'log_index',
+    # 'transaction_log_index',
     'transaction_hash',
     'transaction_index',
     'block_hash',

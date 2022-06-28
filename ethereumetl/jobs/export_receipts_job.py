@@ -75,7 +75,7 @@ class ExportReceiptsJob(BaseJob):
             self.item_exporter.export_item(self.receipt_mapper.receipt_to_dict(receipt))
         if self.export_logs:
             for log in receipt.logs:
-                self.item_exporter.export_item(self.receipt_log_mapper.receipt_log_to_dict(log))
+                self.item_exporter.export_item(self.receipt_log_mapper.receipt_log_to_dict(log, receipt))
 
     def _end(self):
         self.batch_work_executor.shutdown()

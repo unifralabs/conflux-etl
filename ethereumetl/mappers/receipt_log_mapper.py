@@ -67,15 +67,15 @@ class CfxReceiptLogMapper(object):
 
         return receipt_log
 
-    def receipt_log_to_dict(self, receipt_log):
+    def receipt_log_to_dict(self, receipt_log, receipt):
         return {
             'type': 'log',
-            'log_index': receipt_log.log_index,
-            'transaction_log_index': receipt_log.transaction_log_index,
-            'transaction_hash': receipt_log.transaction_hash,
-            'transaction_index': receipt_log.transaction_index,
-            'block_hash': receipt_log.block_hash,
-            'epoch_number': receipt_log.epoch_number,
+            # 'log_index': receipt.log_index,
+            # 'transaction_log_index': receipt.index,
+            'transaction_hash': receipt.transaction_hash,
+            'transaction_index': receipt.index,
+            'block_hash': receipt.block_hash,
+            'epoch_number': receipt.epoch_number,
             'address': receipt_log.address,
             'data': receipt_log.data,
             'topics': receipt_log.topics
