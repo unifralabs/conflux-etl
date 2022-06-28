@@ -42,7 +42,7 @@ class EthTransactionMapper(object):
         transaction.value = hex_to_dec(json_dict.get('value'))
         transaction.gas = hex_to_dec(json_dict.get('gas'))
         transaction.gas_price = hex_to_dec(json_dict.get('gasPrice'))
-        transaction.data = json_dict.get('input')
+        transaction.data = json_dict.get('data')
         transaction.status = json_dict.get('status')
         transaction.storage_limit = hex_to_dec(json_dict.get('storageLimit'))
         transaction.r = json_dict.get('r')
