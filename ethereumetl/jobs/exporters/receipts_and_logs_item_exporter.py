@@ -36,7 +36,6 @@ RECEIPT_FIELDS_TO_EXPORT = [
     'gas_covered_by_sponsor',
     'storage_collateralized',
     'storage_covered_by_sponsor',
-    'storage_released',
     'contract_created',
     'state_root',
     'outcome_status',
