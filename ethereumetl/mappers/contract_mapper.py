@@ -21,13 +21,13 @@
 # SOFTWARE.
 
 
-from ethereumetl.domain.contract import EthContract
+from ethereumetl.domain.contract import CfxContract
 
 
-class EthContractMapper(object):
+class CfxContractMapper(object):
 
     def rpc_result_to_contract(self, contract_address, rpc_result):
-        contract = EthContract()
+        contract = CfxContract()
         contract.address = contract_address
         contract.bytecode = rpc_result
 
@@ -41,5 +41,4 @@ class EthContractMapper(object):
             'function_sighashes': contract.function_sighashes,
             'is_erc20': contract.is_erc20,
             'is_erc721': contract.is_erc721,
-            'block_number': contract.block_number
         }

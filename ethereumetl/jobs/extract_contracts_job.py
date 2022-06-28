@@ -21,12 +21,11 @@
 # SOFTWARE.
 
 
-from ethereumetl.domain.contract import EthContract
-from ethereumetl.executors.batch_work_executor import BatchWorkExecutor
 from blockchainetl.jobs.base_job import BaseJob
-from ethereumetl.mappers.contract_mapper import EthContractMapper
-
-from ethereumetl.service.eth_contract_service import EthContractService
+from ethereumetl.domain.contract import CfxContract
+from ethereumetl.executors.batch_work_executor import BatchWorkExecutor
+from ethereumetl.mappers.contract_mapper import CfxContractMapper
+from ethereumetl.service.eth_contract_service import CfxContractService
 from ethereumetl.utils import to_int_or_none
 
 
@@ -43,8 +42,8 @@ class ExtractContractsJob(BaseJob):
         self.batch_work_executor = BatchWorkExecutor(batch_size, max_workers)
         self.item_exporter = item_exporter
 
-        self.contract_service = EthContractService()
-        self.contract_mapper = EthContractMapper()
+        self.contract_service = CfxContractService()
+        self.contract_mapper = CfxContractMapper()
 
     def _start(self):
         self.item_exporter.open()
@@ -63,7 +62,7 @@ class ExtractContractsJob(BaseJob):
 
         contracts = []
         for trace in contract_creation_traces:
-            contract = EthContract()
+            contract = CfxContract()
             contract.address = trace.get('to_address')
             bytecode = trace.get('output')
             contract.bytecode = bytecode

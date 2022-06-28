@@ -39,10 +39,10 @@ def generate_get_receipt_json_rpc(transaction_hashes):
         )
 
 
-def generate_get_code_json_rpc(contract_addresses, block='latest'):
+def generate_get_code_json_rpc(contract_addresses, block='latest_state'):
     for idx, contract_address in enumerate(contract_addresses):
         yield generate_json_rpc(
-            method='eth_getCode',
+            method='cfx_getCode',
             params=[contract_address, hex(
                 block) if isinstance(block, int) else block],
             request_id=idx

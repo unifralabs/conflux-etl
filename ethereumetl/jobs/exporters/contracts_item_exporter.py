@@ -21,15 +21,14 @@
 # SOFTWARE.
 
 
-from blockchainetl.jobs.exporters.composite_item_exporter import CompositeItemExporter
+from blockchainetl.jobs.exporters.composite_item_exporter import \
+    CompositeItemExporter
 
 FIELDS_TO_EXPORT = [
     'address',
     'bytecode',
     'function_sighashes',
     'is_erc20',
-    'is_erc721',
-    'block_number',
 ]
 
 
