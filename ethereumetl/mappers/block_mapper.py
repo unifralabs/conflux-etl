@@ -61,7 +61,7 @@ class EthBlockMapper(object):
                     tx, block_timestamp=block.timestamp, epoch_number=block.epoch_number
                 )
                 for tx in json_dict['transactions']
-                if isinstance(tx, dict)
+                if isinstance(tx, dict) and (tx.get('status') == '0x0' or tx.get('status') == '0x1')
             ]
 
             block.transaction_count = len(json_dict['transactions'])
