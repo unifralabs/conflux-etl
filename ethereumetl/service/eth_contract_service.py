@@ -32,8 +32,8 @@ class CfxContractService:
             evm_code.disassemble(bytecode)
             basic_blocks = evm_code.basicblocks
             if basic_blocks and len(basic_blocks) > 0:
-                init_block = basic_blocks[0]
-                instructions = init_block.instructions
+                # https://github.com/blockchain-etl/ethereum-etl/issues/349#issuecomment-1159357278
+                instructions = [inst for block in basic_blocks for inst in block.instructions]
                 push4_instructions = [inst for inst in instructions if inst.name == 'PUSH4']
                 return sorted(list(set('0x' + inst.operand for inst in push4_instructions)))
             else:
