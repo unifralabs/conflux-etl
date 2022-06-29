@@ -1,3 +1,4 @@
+
 # MIT License
 #
 # Copyright (c) 2018 Evgeny Medvedev, evge.medvedev@gmail.com
@@ -25,7 +26,8 @@ import json
 
 from blockchainetl.jobs.base_job import BaseJob
 from ethereumetl.executors.batch_work_executor import BatchWorkExecutor
-from ethereumetl.json_rpc_requests import generate_get_block_by_number_json_rpc
+from ethereumetl.json_rpc_requests import (
+    generate_get_block_by_hash_json_rpc, generate_get_blocks_by_epoch_json_rpc)
 from ethereumetl.mappers.block_mapper import EthBlockMapper
 from ethereumetl.mappers.transaction_mapper import EthTransactionMapper
 from ethereumetl.utils import rpc_response_batch_to_results, validate_range
@@ -71,10 +73,20 @@ class ExportBlocksJob(BaseJob):
         )
 
     def _export_batch(self, block_number_batch):
-        blocks_rpc = list(generate_get_block_by_number_json_rpc(block_number_batch, self.export_transactions))
-        response = self.batch_web3_provider.make_batch_request(json.dumps(blocks_rpc))
-        results = rpc_response_batch_to_results(response)
-        blocks = [self.block_mapper.json_dict_to_block(result) for result in results]
+        # get blocks hash list 
+        block_hashes_rpc = list(generate_get_blocks_by_epoch_json_rpc(block_number_batch))
+        block_hashes_response = self.batch_web3_provider.make_batch_request(json.dumps(block_hashes_rpc))
+        block_hashes_results = rpc_response_batch_to_results(block_hashes_response)
+        
+        # flatten block hashes
+        block_hashes = [block_hash for block_hashes_result in block_hashes_results for block_hash in block_hashes_result ]
+
+        # get full blocks data
+        blocks_rpc = list(generate_get_block_by_hash_json_rpc(block_hashes, self.export_transactions))
+        blocks_response = self.batch_web3_provider.make_batch_request(json.dumps(blocks_rpc))
+        blocks_results = rpc_response_batch_to_results(blocks_response)
+        
+        blocks = [self.block_mapper.json_dict_to_block(result) for result in blocks_results]
 
         for block in blocks:
             self._export_block(block)

@@ -21,11 +21,27 @@
 # SOFTWARE.
 
 
-def generate_get_block_by_number_json_rpc(block_numbers, include_transactions):
+def generate_get_block_by_epoch_number_json_rpc(block_numbers, include_transactions):
     for idx, block_number in enumerate(block_numbers):
         yield generate_json_rpc(
             method='cfx_getBlockByEpochNumber',
             params=[hex(block_number), include_transactions],
+            request_id=idx
+        )
+        
+def generate_get_blocks_by_epoch_json_rpc(block_numbers):
+    for idx, block_number in enumerate(block_numbers):
+        yield generate_json_rpc(
+            method='cfx_getBlocksByEpoch',
+            params=[hex(block_number)],
+            request_id=idx
+        )
+        
+def generate_get_block_by_hash_json_rpc(block_hashes, include_transactions):
+   for idx, block_hash in enumerate(block_hashes):
+        yield generate_json_rpc(
+            method='cfx_getBlockByHash',
+            params=[block_hash, include_transactions],
             request_id=idx
         )
 
