@@ -21,7 +21,7 @@
 # SOFTWARE.
 
 
-class EthTokenMapper(object):
+class CfxTokenMapper(object):
     def token_to_dict(self, token):
         return {
             'type': 'token',
@@ -30,5 +30,5 @@ class EthTokenMapper(object):
             'name': token.name,
             'decimals': token.decimals,
             'total_supply': token.total_supply,
-            'block_number': token.block_number
+            'epoch_number': token.epoch_number
         }

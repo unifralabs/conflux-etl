@@ -20,15 +20,13 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from web3 import Web3
+from conflux import Conflux
 from web3._utils.request import make_post_request
 from web3.middleware import geth_poa_middleware
 
 
 def build_web3(provider):
-    w3 = Web3(provider)
-    w3.middleware_onion.inject(geth_poa_middleware, layer=0)
-    return w3
+    return Conflux(provider)
 
 def make_request(provider, text):
     provider.logger.debug("Making request HTTP. URI: %s, Request: %s",

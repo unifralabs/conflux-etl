@@ -21,7 +21,6 @@
 # SOFTWARE.
 
 import click
-
 from ethereumetl import misc_utils
 
 

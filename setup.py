@@ -39,7 +39,8 @@ setup(
         'click==8.0.4',
         'ethereum-dasm==0.1.4',
         'base58',
-        'requests'
+        'requests',
+        'conflux'
     ],
     extras_require={
         'streaming': [

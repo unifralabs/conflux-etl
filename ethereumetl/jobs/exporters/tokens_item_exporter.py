@@ -21,7 +21,8 @@
 # SOFTWARE.
 
 
-from blockchainetl.jobs.exporters.composite_item_exporter import CompositeItemExporter
+from blockchainetl.jobs.exporters.composite_item_exporter import \
+    CompositeItemExporter
 
 FIELDS_TO_EXPORT = [
     'address',
@@ -29,7 +30,7 @@ FIELDS_TO_EXPORT = [
     'name',
     'decimals',
     'total_supply',
-    'block_number'
+    'epoch_number'
 ]
 
 
