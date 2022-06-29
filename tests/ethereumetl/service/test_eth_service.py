@@ -25,7 +25,7 @@ import pytest
 from dateutil.parser import parse
 from web3 import HTTPProvider, Web3
 
-from ethereumetl.service.eth_service import EthService
+from ethereumetl.service.eth_service import CfxService
 from ethereumetl.service.graph_operations import OutOfBoundsError
 from ethereumetl.web3_utils import build_web3
 from tests.helpers import skip_if_slow_tests_disabled
@@ -78,4 +78,4 @@ def test_get_block_range_for_timestamps_fail(start_timestamp, end_timestamp):
 def get_new_eth_service():
     provider_url = os.environ.get('PROVIDER_URL', 'https://mainnet.infura.io/v3/7aef3f0cd1f64408b163814b22cc643c')
     web3 = build_web3(HTTPProvider(provider_url))
-    return EthService(web3)
+    return CfxService(web3)

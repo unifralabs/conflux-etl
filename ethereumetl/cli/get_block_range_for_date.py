@@ -28,7 +28,7 @@ from ethereumetl.web3_utils import build_web3
 
 from blockchainetl.file_utils import smart_open
 from blockchainetl.logging_utils import logging_basic_config
-from ethereumetl.service.eth_service import EthService
+from ethereumetl.service.eth_service import CfxService
 from ethereumetl.providers.auto import get_provider_from_uri
 from ethereumetl.utils import check_classic_provider_uri
 
@@ -48,7 +48,7 @@ def get_block_range_for_date(provider_uri, date, output, chain='ethereum'):
     provider_uri = check_classic_provider_uri(chain, provider_uri)
     provider = get_provider_from_uri(provider_uri)
     web3 = build_web3(provider)
-    eth_service = EthService(web3)
+    eth_service = CfxService(web3)
 
     start_block, end_block = eth_service.get_block_range_for_date(date)
 

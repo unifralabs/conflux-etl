@@ -31,7 +31,7 @@ from ethereumetl.web3_utils import build_web3
 
 from ethereumetl.jobs.export_all_common import export_all_common
 from ethereumetl.providers.auto import get_provider_from_uri
-from ethereumetl.service.eth_service import EthService
+from ethereumetl.service.eth_service import CfxService
 from ethereumetl.utils import check_classic_provider_uri
 
 logging_basic_config()
@@ -75,7 +75,7 @@ def get_partitions(start, end, partition_batch_size, provider_uri):
 
         provider = get_provider_from_uri(provider_uri)
         web3 = build_web3(provider)
-        eth_service = EthService(web3)
+        eth_service = CfxService(web3)
 
         while start_date <= end_date:
             batch_start_block, batch_end_block = eth_service.get_block_range_for_date(start_date)

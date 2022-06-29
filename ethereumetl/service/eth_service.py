@@ -23,10 +23,11 @@
 
 from datetime import datetime, timezone
 
-from ethereumetl.service.graph_operations import GraphOperations, OutOfBoundsError, Point
+from ethereumetl.service.graph_operations import (GraphOperations,
+                                                  OutOfBoundsError, Point)
 
 
-class EthService(object):
+class CfxService(object):
     def __init__(self, web3):
         graph = BlockTimestampGraph(web3)
         self._graph_operations = GraphOperations(graph)
@@ -71,14 +72,14 @@ class BlockTimestampGraph(object):
 
     def get_first_point(self):
         # Ignore the genesis block as its timestamp is 0
-        return block_to_point(self._web3.eth.getBlock(1))
+        return block_to_point(self._web3.cfx.getBlockByEpochNumber(1))
 
     def get_last_point(self):
-        return block_to_point(self._web3.eth.getBlock('latest'))
+        return block_to_point(self._web3.cfx.getBlockByEpochNumber('latest_confirmed'))
 
     def get_point(self, x):
-        return block_to_point(self._web3.eth.getBlock(x))
+        return block_to_point(self._web3.cfx.getBlockByEpochNumber(x))
 
 
 def block_to_point(block):
-    return Point(block.number, block.timestamp)
+    return Point(block.epochNumber, block.timestamp)
