@@ -40,7 +40,7 @@ setup(
         'ethereum-dasm==0.1.4',
         'base58',
         'requests',
-        'conflux'
+        'conflux==0.0.5'
     ],
     extras_require={
         'streaming': [
