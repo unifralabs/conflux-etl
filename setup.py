@@ -31,7 +31,8 @@ setup(
     keywords='ethereum',
     python_requires='>=3.7.2,<4',
     install_requires=[
-        'web3>=5.29,<6',
+        'web3==5.17',
+        'conflux==0.1.1',
         'eth-utils==1.10',
         'eth-abi==2.1.1',
         # TODO: This has to be removed when "ModuleNotFoundError: No module named 'eth_utils.toolz'" is fixed at eth-abi
@@ -39,8 +40,7 @@ setup(
         'click==8.0.4',
         'ethereum-dasm==0.1.4',
         'base58',
-        'requests',
-        'conflux==0.0.5'
+        'requests'
     ],
     extras_require={
         'streaming': [
