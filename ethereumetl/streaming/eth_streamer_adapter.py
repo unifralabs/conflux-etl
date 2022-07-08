@@ -42,7 +42,7 @@ class EthStreamerAdapter:
 
     def get_current_block_number(self):
         w3 = build_web3(self.batch_web3_provider)
-        return int(w3.eth.getBlock("latest").number)
+        return int(w3.cfx.epochNumber('latest_confirmed'))
 
     def export_all(self, start_block, end_block):
         # Export blocks and transactions
@@ -60,20 +60,20 @@ class EthStreamerAdapter:
         if self._should_export(EntityType.TOKEN_TRANSFER):
             token_transfers = self._extract_token_transfers(logs)
 
-        # Export traces
-        traces = []
-        if self._should_export(EntityType.TRACE):
-            traces = self._export_traces(start_block, end_block)
+        # # Export traces
+        # traces = []
+        # if self._should_export(EntityType.TRACE):
+        #     traces = self._export_traces(start_block, end_block)
 
-        # Export contracts
-        contracts = []
-        if self._should_export(EntityType.CONTRACT):
-            contracts = self._export_contracts(traces)
+        # # Export contracts
+        # contracts = []
+        # if self._should_export(EntityType.CONTRACT):
+        #     contracts = self._export_contracts(traces)
 
-        # Export tokens
-        tokens = []
-        if self._should_export(EntityType.TOKEN):
-            tokens = self._extract_tokens(contracts)
+        # # Export tokens
+        # tokens = []
+        # if self._should_export(EntityType.TOKEN):
+        #     tokens = self._extract_tokens(contracts)
 
         enriched_blocks = blocks \
             if EntityType.BLOCK in self.entity_types else []
@@ -83,10 +83,10 @@ class EthStreamerAdapter:
             if EntityType.LOG in self.entity_types else []
         enriched_token_transfers = enrich_token_transfers(blocks, token_transfers) \
             if EntityType.TOKEN_TRANSFER in self.entity_types else []
-        enriched_contracts = enrich_contracts(blocks, contracts) \
-            if EntityType.CONTRACT in self.entity_types else []
-        enriched_tokens = enrich_tokens(blocks, tokens) \
-            if EntityType.TOKEN in self.entity_types else []
+        # enriched_contracts = enrich_contracts(blocks, contracts) \
+        #     if EntityType.CONTRACT in self.entity_types else []
+        # enriched_tokens = enrich_tokens(blocks, tokens) \
+        #     if EntityType.TOKEN in self.entity_types else []
 
         logging.info('Exporting with ' + type(self.item_exporter).__name__)
 
@@ -94,9 +94,9 @@ class EthStreamerAdapter:
             sort_by(enriched_blocks, 'number') + \
             sort_by(enriched_transactions, ('block_number', 'transaction_index')) + \
             sort_by(enriched_logs, ('block_number', 'log_index')) + \
-            sort_by(enriched_token_transfers, ('block_number', 'log_index')) + \
-            sort_by(enriched_contracts, ('block_number',)) + \
-            sort_by(enriched_tokens, ('block_number',))
+            sort_by(enriched_token_transfers, ('block_number', 'log_index')) 
+            # sort_by(enriched_contracts, ('block_number',)) + \
+            # sort_by(enriched_tokens, ('block_number',))
 
         self.calculate_item_ids(all_items)
         self.calculate_item_timestamps(all_items)
