@@ -31,7 +31,8 @@ FIELDS_TO_EXPORT = [
     'value',
     'transaction_hash',
     'log_index',
-    'epoch_number'
+    'epoch_number',
+    'block_hash'
 ]
 
 

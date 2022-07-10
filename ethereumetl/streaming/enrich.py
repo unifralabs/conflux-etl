@@ -95,16 +95,16 @@ def enrich_transactions(transactions, receipts):
 
 def enrich_logs(blocks, logs):
     result = list(join(
-        logs, blocks, ('block_number', 'number'),
+        logs, blocks, ('block_hash', 'hash'),
         [
             'type',
-            'log_index',
+            # 'log_index',
             'transaction_hash',
             'transaction_index',
             'address',
             'data',
             'topics',
-            'block_number'
+            'epoch_number'
         ],
         [
             ('timestamp', 'block_timestamp'),
@@ -119,7 +119,7 @@ def enrich_logs(blocks, logs):
 
 def enrich_token_transfers(blocks, token_transfers):
     result = list(join(
-        token_transfers, blocks, ('block_number', 'number'),
+        token_transfers, blocks, ('block_hash', 'hash'),
         [
             'type',
             'token_address',
@@ -128,7 +128,7 @@ def enrich_token_transfers(blocks, token_transfers):
             'value',
             'transaction_hash',
             'log_index',
-            'block_number'
+            'epoch_number'
         ],
         [
             ('timestamp', 'block_timestamp'),

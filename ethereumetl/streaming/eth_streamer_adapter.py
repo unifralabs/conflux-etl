@@ -21,7 +21,7 @@ from ethereumetl.thread_local_proxy import ThreadLocalProxy
 from ethereumetl.web3_utils import build_web3
 
 
-class EthStreamerAdapter:
+class CfxStreamerAdapter:
     def __init__(
             self,
             batch_web3_provider,

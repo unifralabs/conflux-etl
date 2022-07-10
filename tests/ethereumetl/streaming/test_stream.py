@@ -23,7 +23,7 @@
 import os
 
 import pytest
-from ethereumetl.streaming.eth_streamer_adapter import EthStreamerAdapter
+from ethereumetl.streaming.eth_streamer_adapter import CfxStreamerAdapter
 from ethereumetl.thread_local_proxy import ThreadLocalProxy
 
 import tests.resources
@@ -60,7 +60,7 @@ def test_stream(tmpdir, start_block, end_block, batch_size, resource_group, enti
     contracts_output_file = str(tmpdir.join('actual_contracts.json'))
     tokens_output_file = str(tmpdir.join('actual_tokens.json'))
 
-    streamer_adapter = EthStreamerAdapter(
+    streamer_adapter = CfxStreamerAdapter(
         batch_web3_provider=ThreadLocalProxy(
             lambda: get_web3_provider(provider_type,
                                       read_resource_lambda=lambda file: read_resource(resource_group, file),

@@ -32,4 +32,5 @@ class CfxTokenTransferMapper(object):
             'transaction_hash': token_transfer.transaction_hash,
             'log_index': token_transfer.log_index,
             'epoch_number': token_transfer.epoch_number,
+            'block_hash': token_transfer.block_hash,
         }

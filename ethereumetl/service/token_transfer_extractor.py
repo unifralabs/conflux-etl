@@ -57,6 +57,7 @@ class CfxTokenTransferExtractor(object):
             token_transfer.transaction_hash = receipt_log.transaction_hash
             token_transfer.log_index = receipt_log.log_index
             token_transfer.epoch_number = receipt_log.epoch_number
+            token_transfer.block_hash = receipt_log.block_hash
             return token_transfer
 
         return None

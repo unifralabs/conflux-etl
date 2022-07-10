@@ -70,6 +70,7 @@ class CfxReceiptLogMapper(object):
     def receipt_log_to_dict(self, receipt_log, receipt):
         return {
             'type': 'log',
+            # ! Conflux haven't returned log_index and transaction_log_index in cfx_getTransactionReceipt
             # 'log_index': receipt.log_index,
             # 'transaction_log_index': receipt.index,
             'transaction_hash': receipt.transaction_hash,

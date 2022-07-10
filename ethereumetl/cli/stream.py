@@ -59,14 +59,14 @@ def stream(last_synced_block_file, lag, provider_uri, output, start_block, entit
     configure_signals()
     entity_types = parse_entity_types(entity_types)
 
-    from ethereumetl.streaming.eth_streamer_adapter import EthStreamerAdapter
+    from ethereumetl.streaming.eth_streamer_adapter import CfxStreamerAdapter
     from blockchainetl.streaming.streamer import Streamer
 
     # TODO: Implement fallback mechanism for provider uris instead of picking randomly
     provider_uri = pick_random_provider_uri(provider_uri)
     logging.info('Using ' + provider_uri)
 
-    streamer_adapter = EthStreamerAdapter(
+    streamer_adapter = CfxStreamerAdapter(
         batch_web3_provider=ThreadLocalProxy(lambda: get_provider_from_uri(provider_uri, batch=True)),
         item_exporter=create_item_exporters(output),
         batch_size=batch_size,

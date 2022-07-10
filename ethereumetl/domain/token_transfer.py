@@ -30,3 +30,4 @@ class CfxTokenTransfer(object):
         self.transaction_hash = None
         self.log_index = None
         self.epoch_number = None
+        self.block_hash = None
