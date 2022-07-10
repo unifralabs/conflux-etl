@@ -31,7 +31,7 @@ setup(
     keywords='ethereum',
     python_requires='>=3.7.2,<4',
     install_requires=[
-        'web3==5.17',
+        'web3>=5.14.0,<=5.17.0',
         'conflux==0.1.1',
         'eth-utils==1.10',
         'eth-abi==2.1.1',

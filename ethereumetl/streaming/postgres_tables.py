@@ -20,9 +20,19 @@
 #  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 #  SOFTWARE.
 
-from sqlalchemy import (TIMESTAMP, VARCHAR, BigInteger, Boolean, Column,
-                        Integer, MetaData, Numeric, PrimaryKeyConstraint,
-                        String, Table)
+from sqlalchemy import (
+    TIMESTAMP,
+    VARCHAR,
+    BigInteger,
+    Boolean,
+    Column,
+    Integer,
+    MetaData,
+    Numeric,
+    PrimaryKeyConstraint,
+    String,
+    Table,
+)
 from sqlalchemy.dialects.postgresql import ARRAY
 
 metadata = MetaData()
@@ -30,30 +40,31 @@ metadata = MetaData()
 # SQL schema is here https://github.com/blockchain-etl/ethereum-etl-postgres/tree/master/schema
 
 BLOCKS = Table(
-    'blocks', metadata,
+    'blocks',
+    metadata,
     Column('timestamp', TIMESTAMP),
-    Column('number', BigInteger),
+    Column('epoch_number', BigInteger),
+    Column('height', BigInteger),
     Column('hash', String, primary_key=True),
     Column('parent_hash', String),
     Column('nonce', String),
-    Column('sha3_uncles', String),
-    Column('logs_bloom', String),
     Column('transactions_root', String),
-    Column('state_root', String),
-    Column('receipts_root', String),
+    Column('deferred_state_root', String),
+    Column('deferred_receipts_root', String),
+    Column('deferred_logs_bloom_hash', String),
     Column('miner', String),
     Column('difficulty', Numeric(38)),
-    Column('total_difficulty', Numeric(38)),
     Column('size', BigInteger),
-    Column('extra_data', String),
     Column('gas_limit', BigInteger),
     Column('gas_used', BigInteger),
-    Column('transaction_count', BigInteger),
-    Column('base_fee_per_gas', BigInteger),
+    Column('pow_quality', Numeric(38)),
+    Column('adaptive', Boolean),
+    Column('blame', Boolean),
 )
 
 TRANSACTIONS = Table(
-    'transactions', metadata,
+    'transactions',
+    metadata,
     Column('hash', String, primary_key=True),
     Column('nonce', BigInteger),
     Column('transaction_index', BigInteger),
@@ -62,24 +73,25 @@ TRANSACTIONS = Table(
     Column('value', Numeric(38)),
     Column('gas', BigInteger),
     Column('gas_price', BigInteger),
-    Column('input', String),
-    Column('receipt_cumulative_gas_used', BigInteger),
-    Column('receipt_gas_used', BigInteger),
-    Column('receipt_contract_address', String),
-    Column('receipt_root', String),
-    Column('receipt_status', BigInteger),
+    Column('data', String),
+    Column('status', String),  # TODO: udpate status to numeric
     Column('block_timestamp', TIMESTAMP),
-    Column('block_number', BigInteger),
+    Column('epoch_number', BigInteger),
+    Column('epoch_height', BigInteger),
     Column('block_hash', String),
-    Column('max_fee_per_gas', BigInteger),
-    Column('max_priority_fee_per_gas', BigInteger),
-    Column('transaction_type', BigInteger),
-    Column('receipt_effective_gas_price', BigInteger),
+    Column('chain_id', String),  # TODO: update chain_id to numeric
+    Column('contract_created', String),
+    Column('storage_limit', String),  # TODO: update storage_limit to numeric
+    Column('r', String),
+    Column('s', String),
+    Column('v', String),
 )
 
 LOGS = Table(
-    'logs', metadata,
+    'logs',
+    metadata,
     Column('log_index', BigInteger, primary_key=True),
+    Column('transaction_log_index', BigInteger),
     Column('transaction_hash', String, primary_key=True),
     Column('transaction_index', BigInteger),
     Column('address', String),
@@ -88,43 +100,44 @@ LOGS = Table(
     Column('topic1', String),
     Column('topic2', String),
     Column('topic3', String),
-    Column('block_timestamp', TIMESTAMP),
-    Column('block_number', BigInteger),
+    Column('epoch_number', BigInteger),
     Column('block_hash', String),
 )
 
 TOKEN_TRANSFERS = Table(
-    'token_transfers', metadata,
+    'token_transfers',
+    metadata,
     Column('token_address', String),
     Column('from_address', String),
     Column('to_address', String),
     Column('value', Numeric(78)),
     Column('transaction_hash', String, primary_key=True),
     Column('log_index', BigInteger, primary_key=True),
-    Column('block_timestamp', TIMESTAMP),
-    Column('block_number', BigInteger),
+    Column('epoch_number', BigInteger),
     Column('block_hash', String),
 )
 
 TOKENS = Table(
-    'tokens', metadata,
+    'tokens',
+    metadata,
     Column('address', VARCHAR(42)),
     Column('name', String),
     Column('symbol', String),
     Column('decimals', Integer),
     Column('function_sighashes', ARRAY(String)),
     Column('total_supply', Numeric(78)),
-    Column('block_number', BigInteger),
-    PrimaryKeyConstraint('address', 'block_number', name='tokens_pk'),
+    Column('epoch_number', BigInteger),
+    PrimaryKeyConstraint('address', 'epoch_number', name='tokens_pk'),
 )
 
 CONTRACTS = Table(
-    'contracts', metadata,
+    'contracts',
+    metadata,
     Column('address', VARCHAR(42)),
     Column('bytecode', String),
     Column('function_sighashes', ARRAY(String)),
     Column('is_erc20', Boolean),
     Column('is_erc721', Boolean),
-    Column('block_number', BigInteger),
-    PrimaryKeyConstraint('address', 'block_number', name='contracts_pk'),
+    Column('epoch_number', BigInteger),
+    PrimaryKeyConstraint('address', 'epoch_number', name='contracts_pk'),
 )
