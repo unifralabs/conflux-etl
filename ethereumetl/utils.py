@@ -49,7 +49,7 @@ def to_int_or_none(val):
 
 
 def chunk_string(string, length):
-    return (string[0 + i:length + i] for i in range(0, len(string), length))
+    return (string[0 + i : length + i] for i in range(0, len(string), length))
 
 
 def to_normalized_address(address):

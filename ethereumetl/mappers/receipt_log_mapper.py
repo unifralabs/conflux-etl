@@ -26,7 +26,6 @@ from ethereumetl.utils import hex_to_dec
 
 
 class CfxReceiptLogMapper(object):
-
     def json_dict_to_receipt_log(self, json_dict):
         receipt_log = CfxReceiptLog()
 
@@ -58,7 +57,7 @@ class CfxReceiptLogMapper(object):
             block_hash = block_hash.hex()
         receipt_log.block_hash = block_hash
 
-        receipt_log.epoch_number= dict.get('epochNumber')
+        receipt_log.epoch_number = dict.get('epochNumber')
         receipt_log.address = dict.get('address')
         receipt_log.data = dict.get('data')
 
@@ -79,7 +78,21 @@ class CfxReceiptLogMapper(object):
             'epoch_number': receipt.epoch_number,
             'address': receipt_log.address,
             'data': receipt_log.data,
-            'topics': receipt_log.topics
+            'topics': receipt_log.topics,
+        }
+
+    def log_to_dict(self, log):
+        return {
+            'type': 'log',
+            'log_index': log.log_index,
+            'transaction_log_index': log.transaction_log_index,
+            'transaction_hash': log.transaction_hash,
+            'transaction_index': log.transaction_index,
+            'block_hash': log.block_hash,
+            'epoch_number': log.epoch_number,
+            'address': log.address,
+            'data': log.data,
+            'topics': log.topics,
         }
 
     def dict_to_receipt_log(self, dict):
