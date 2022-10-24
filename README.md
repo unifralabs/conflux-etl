@@ -1,13 +1,31 @@
-# Ethereum ETL
+# Conflux ETL
 
-[![Build Status](https://app.travis-ci.com/blockchain-etl/ethereum-etl.svg?branch=develop)](https://travis-ci.com/github/blockchain-etl/ethereum-etl)
-[![Join the chat at https://gitter.im/ethereum-eth](https://badges.gitter.im/ethereum-etl.svg)](https://gitter.im/ethereum-etl/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Telegram](https://img.shields.io/badge/telegram-join%20chat-blue.svg)](https://t.me/joinchat/GsMpbA3mv1OJ6YMp3T5ORQ)
-[![Discord](https://img.shields.io/badge/discord-join%20chat-blue.svg)](https://discord.gg/wukrezR)
+[![Discord](https://img.shields.io/badge/discord-join%20chat-blue.svg)](https://discord.gg/erww7xrffc)
 
-Ethereum ETL lets you convert blockchain data into convenient formats like CSVs and relational databases.
+Conflux ETL is a tool for extracting data from the Conflux blockchain and loading it into a datastore.
 
-_Do you just want to query Ethereum data right away? Use the [public dataset in BigQuery](https://console.cloud.google.com/marketplace/details/ethereum/crypto-ethereum-blockchain)._
+It's a fork of the [ethereum-etl](https://github.com/blockchain-etl/ethereum-etl) project.
+
+Supported instructions:
+
+- export_blocks_and_transactions
+- export_token_transfers
+- export_receipts_and_logs
+- export_contracts
+- export_tokens
+- export_logs
+- extract_csv_column
+- get_block_range_for_date
+- get_keccak_hash
+
+Supported data outputs:
+
+- Console
+- CSV files
+
+Welcome to contribute to the project by submitting a pull request.
+
+---
 
 [Full documentation available here](http://ethereum-etl.readthedocs.io/).
 
